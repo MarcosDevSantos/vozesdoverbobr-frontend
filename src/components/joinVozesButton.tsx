@@ -7,7 +7,7 @@ export default function JoinVozes() {
 				p: 0,
 				minWidth: "280px",
 				height: "65px",
-
+				width: '400px',
 				borderRadius: "50px",
 				overflow: "hidden",
 
@@ -45,7 +45,7 @@ export default function JoinVozes() {
 					alignItems: "center",
 					justifyContent: "center",
 
-					background: "linear-gradient(135deg, #ff5a00, #ff9500)",
+					background: "linear-gradient(135deg, #ff5a00, rgb(255, 102, 0))",
 
 					color: "#fff",
 
@@ -82,14 +82,14 @@ export default function JoinVozes() {
 
 					fontSize: "2rem",
 
-					border: "2px solid #ffd700",
+					border: "2px solid rgb(255, 102, 0)",
 
 					borderLeft: "none",
 					borderRadius: "0 50px 50px 0",
 
 					boxShadow: `
           inset 0 0 15px rgba(255,255,255,0.15),
-          0 0 8px #ffd700,
+          0 0 8px rgb(255, 102, 0),
           0 0 20px rgba(255,215,0,0.7),
           0 0 35px rgba(255,200,0,0.4)
         `,

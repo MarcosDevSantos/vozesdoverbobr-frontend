@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { Instagram, WhatsApp } from "@mui/icons-material";
 
-const pages = ["Products", "Pricing", "Blog"];
+const pages = ["Home", "Jornada de Missas", "Publicações", "Agenda", "Sobre nós", "Galeria"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -43,8 +43,8 @@ function Header() {
 	return (
 		<AppBar
 			sx={{
-				padding: "10px",
-				backgroundColor: "#070404",
+				padding: "2px",
+				backgroundColor: "#fff",
 				boxShadow: "none",
 			}}
 			position="static"
@@ -63,7 +63,7 @@ function Header() {
 							fontFamily: "monospace",
 							fontWeight: 700,
 							letterSpacing: ".3rem",
-							color: "inherit",
+							color: "rgb(255, 102, 0)",
 							textDecoration: "none",
 						}}
 					>
@@ -99,7 +99,7 @@ function Header() {
 						>
 							{pages.map((page) => (
 								<MenuItem key={page} onClick={handleCloseNavMenu}>
-									<Typography sx={{ textAlign: "center" }}>{page}</Typography>
+									<Typography sx={{ textAlign: "center", color: 'rgb(255, 102, 0)' }}>{page}</Typography>
 								</MenuItem>
 							))}
 						</Menu>
@@ -128,7 +128,7 @@ function Header() {
 							<Button
 								key={page}
 								onClick={handleCloseNavMenu}
-								sx={{ my: 2, color: "white", display: "block" }}
+								sx={{ my: 2, color: "rgb(255, 102, 0)", display: "block" }}
 							>
 								{page}
 							</Button>
@@ -144,7 +144,7 @@ function Header() {
 							</IconButton>
 						</div>
 						<Menu
-							sx={{ mt: "45px" }}
+							sx={{ mt: "45px" , color: 'rgb(255, 102, 0)'}}
 							id="menu-appbar"
 							anchorEl={anchorElUser}
 							anchorOrigin={{
@@ -161,7 +161,7 @@ function Header() {
 						>
 							{settings.map((setting) => (
 								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography sx={{ textAlign: "center" }}>
+									<Typography sx={{ textAlign: "center" , color: 'rgb(255, 102, 0)'}}>
 										{setting}
 									</Typography>
 								</MenuItem>

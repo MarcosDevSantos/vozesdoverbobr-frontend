@@ -1,9 +1,14 @@
+import Footer from "./components/footer";
+import Header from "./components/header";
 import Home from "./pages/home";
+import JornadaMissas from "./pages/jornadaMIssas";
 
 function App() {
 	return (
 		<>
-			<Home />
+			<Header/>
+			<JornadaMissas />
+			<Footer/>
 		</>
 	);
 }
