@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
 	Box,
 	Button,
@@ -11,6 +11,9 @@ import {
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import GroupsIcon from "@mui/icons-material/Groups";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import axios from "axios";
+import { useProfile } from "../store/profile";
+import toast from "react-hot-toast";
 
 const ORANGE = "#FF6600";
 const ORANGE_LIGHT = "#FF7A00";
@@ -64,16 +67,11 @@ const getWeekDays = (date: Date): Day[] => {
 
 		return {
 			date: current,
-			dayName:
-				dayName.charAt(0).toUpperCase() +
-				dayName.slice(1),
+			dayName: dayName.charAt(0).toUpperCase() + dayName.slice(1),
 			shortName:
-				shortName.charAt(0).toUpperCase() +
-				shortName.slice(1).replace(".", ""),
+				shortName.charAt(0).toUpperCase() + shortName.slice(1).replace(".", ""),
 			dayNumber: current.getDate(),
-			month: monthFormatter
-				.format(current)
-				.replace(".", ""),
+			month: monthFormatter.format(current).replace(".", ""),
 		};
 	});
 };
@@ -86,30 +84,76 @@ const isSameDay = (date1: Date, date2: Date) => {
 	);
 };
 
+const isBeforeToday = (date1: Date, date2: Date) => {
+	return date1.getDate() < date2.getDate();
+};
+
 export default function JornadaMissas() {
 	const today = new Date();
-
+	const profile = useProfile();
 	const weekDays = useMemo(() => {
 		return getWeekDays(today);
 	}, []);
 
 	const [selectedDays, setSelectedDays] = useState<string[]>([]);
+	const [loadingSave, setLoadingSave] = useState(false);
+	const [commitments, setCommitments] = useState([]);
 
-	/*
-	 * MOCK
-	 *
-	 * Depois você pode substituir isso pelos dados
-	 * vindos do seu backend.
-	 */
-	const commitments: Record<string, number> = {
-		[weekDays[0].date.toISOString()]: 18,
-		[weekDays[1].date.toISOString()]: 27,
-		[weekDays[2].date.toISOString()]: 31,
-		[weekDays[3].date.toISOString()]: 24,
-		[weekDays[4].date.toISOString()]: 42,
-		[weekDays[5].date.toISOString()]: 56,
-		[weekDays[6].date.toISOString()]: 61,
+	const formatDay = (date: Date) => {
+		const formatter = new Intl.DateTimeFormat("pt-BR", {
+			weekday: "long",
+		});
+
+		const shortFormatter = new Intl.DateTimeFormat("pt-BR", {
+			weekday: "short",
+		});
+
+		const monthFormatter = new Intl.DateTimeFormat("pt-BR", {
+			month: "long",
+		});
+
+		return {
+			date: date,
+			dayName: formatter.format(date),
+			shortName: shortFormatter.format(date),
+			dayNumber: date.getDate(),
+			month: monthFormatter.format(date),
+		};
 	};
+
+	useEffect(() => {
+		if (weekDays) {
+			const formattedWeekDays = weekDays.map((d) => d.date.toISOString());
+
+			console.log(weekDays);
+			axios
+				.post(
+					`${import.meta.env.VITE_API_URL}/jornadaDeMissas/quantity-persons`,
+					{ dates: formattedWeekDays },
+				)
+				.then((r) => {
+					setCommitments(
+						r.data.map((d: any) => {
+							const date = new Date(d.date);
+
+							const formattedDay = formatDay(date);
+							console.log(formattedDay);
+							return d.quantity;
+						}),
+					);
+				});
+		}
+
+		if (profile.email) {
+			axios
+				.get(
+					`${import.meta.env.VITE_API_URL}/jornadaDeMissas/find-days/${profile.email}`,
+				)
+				.then((r) => {
+					setSelectedDays(r.data);
+				});
+		}
+	}, [profile.email, weekDays, loadingSave]);
 
 	const toggleDay = (date: Date) => {
 		const key = date.toISOString();
@@ -210,9 +254,6 @@ export default function JornadaMissas() {
 							mx: "auto",
 						}}
 					>
-
-						
-
 						{/* PEQUENO TÍTULO */}
 
 						<Typography
@@ -251,8 +292,7 @@ export default function JornadaMissas() {
 									xs: "-1px",
 									md: "-3px",
 								},
-								textShadow:
-									"0 10px 40px rgba(0,0,0,0.5)",
+								textShadow: "0 10px 40px rgba(0,0,0,0.5)",
 							}}
 						>
 							Jornada de Missas
@@ -262,8 +302,7 @@ export default function JornadaMissas() {
 
 						<Typography
 							sx={{
-								color:
-									"rgba(255,255,255,0.82)",
+								color: "rgba(255,255,255,0.82)",
 								fontSize: {
 									xs: "1rem",
 									md: "1.15rem",
@@ -273,10 +312,8 @@ export default function JornadaMissas() {
 								fontWeight: 300,
 							}}
 						>
-							Una-se a nós em oração e participe da
-							Santa Missa oferecendo seus frutos
-							pelas missões do Instituto do Verbo
-							Encarnado.
+							Una-se a nós em oração e participe da Santa Missa oferecendo seus
+							frutos pelas missões do Instituto do Verbo Encarnado.
 						</Typography>
 
 						<Box
@@ -350,10 +387,9 @@ export default function JornadaMissas() {
 							maxWidth: "650px",
 						}}
 					>
-						Assuma o compromisso de participar da
-						Santa Missa em um ou mais dias desta
-						semana, oferecendo sua oração pelas
-						missões e pelos frutos do Instituto.
+						Assuma o compromisso de participar da Santa Missa em um ou mais dias
+						desta semana, oferecendo sua oração pelas missões e pelos frutos do
+						Instituto.
 					</Typography>
 				</Stack>
 
@@ -371,8 +407,7 @@ export default function JornadaMissas() {
 							sm: 3,
 							md: 5,
 						},
-						border:
-							"1px solid rgba(255,102,0,0.1)",
+						border: "1px solid rgba(255,102,0,0.1)",
 					}}
 				>
 					{/* CABEÇALHO */}
@@ -395,8 +430,7 @@ export default function JornadaMissas() {
 								sx={{
 									color: TEXT_LIGHT,
 									fontSize: "0.8rem",
-									textTransform:
-										"uppercase",
+									textTransform: "uppercase",
 									letterSpacing: "2px",
 									mb: 0.5,
 								}}
@@ -406,26 +440,20 @@ export default function JornadaMissas() {
 
 							<Typography
 								sx={{
-                                    marginBottom: '20px',
-									fontFamily:
-										"Cinzel, serif",
+									marginBottom: "20px",
+									fontFamily: "Cinzel, serif",
 									fontSize: {
 										xs: "1.5rem",
 										md: "2rem",
 									},
 									fontWeight: 600,
-									textTransform:
-										"capitalize",
+									textTransform: "capitalize",
 								}}
 							>
-								{weekDays[0].dayNumber}{" "}
-								{weekDays[0].month} —{" "}
-								{weekDays[6].dayNumber}{" "}
-								{weekDays[6].month}
+								{weekDays[0].dayNumber} {weekDays[0].month} —{" "}
+								{weekDays[6].dayNumber} {weekDays[6].month}
 							</Typography>
 						</Box>
-
-
 					</Stack>
 
 					{/* DIAS */}
@@ -444,65 +472,54 @@ export default function JornadaMissas() {
 							},
 						}}
 					>
-						{weekDays.map((day) => {
-							const key =
-								day.date.toISOString();
+						{weekDays.map((day, index) => {
+							const key = day.date.toISOString();
 
-							const selected =
-								selectedDays.includes(key);
+							const selected = selectedDays.includes(key);
 
-							const isToday = isSameDay(
-								day.date,
-								today
-							);
+							const isToday = isSameDay(day.date, today);
 
-							const people =
-								commitments[key] ?? 0;
+							const beforeToday = isBeforeToday(day.date, today);
+							console.log(key);
+							const people = commitments[index] ?? 0;
 
 							return (
 								<Box
 									key={key}
-									onClick={() =>
-										toggleDay(
-											day.date
-										)
-									}
+									onClick={() => {
+										if (!beforeToday) {
+											toggleDay(day.date);
+										}
+									}}
 									sx={{
-										cursor: "pointer",
-										position:
-											"relative",
+										cursor: beforeToday ? "auto" : "pointer",
+										position: "relative",
 										minHeight: {
 											xs: 160,
 											md: 210,
 										},
-										backgroundColor:
-											selected
+										backgroundColor: beforeToday
+											? "#c2bfbf"
+											: selected
 												? ORANGE
 												: "#fff",
-										borderRadius:
-											"18px",
+										borderRadius: "18px",
 										border: isToday
 											? `2px solid ${ORANGE}`
 											: "1px solid rgba(0,0,0,0.06)",
 										display: "flex",
-										flexDirection:
-											"column",
-										alignItems:
-											"center",
-										justifyContent:
-											"space-between",
+										flexDirection: "column",
+										alignItems: "center",
+										justifyContent: "space-between",
 										p: {
 											xs: 1.5,
 											md: 2,
 										},
-										transition:
-											"all 0.25s ease",
+										transition: "all 0.25s ease",
 
 										"&:hover": {
-											transform:
-												"translateY(-5px)",
-											boxShadow:
-												"0 15px 30px rgba(0,0,0,0.08)",
+											transform: "translateY(-5px)",
+											boxShadow: "0 15px 30px rgba(0,0,0,0.08)",
 										},
 									}}
 								>
@@ -511,25 +528,15 @@ export default function JornadaMissas() {
 									{isToday && (
 										<Box
 											sx={{
-												position:
-													"absolute",
+												position: "absolute",
 												top: 10,
 												right: 10,
-												backgroundColor:
-													selected
-														? "#fff"
-														: ORANGE,
-												color:
-													selected
-														? ORANGE
-														: "#fff",
-												fontSize:
-													"0.55rem",
+												backgroundColor: selected ? "#fff" : ORANGE,
+												color: selected ? ORANGE : "#fff",
+												fontSize: "0.55rem",
 												fontWeight: 700,
-												letterSpacing:
-													"1px",
-												borderRadius:
-													"50px",
+												letterSpacing: "1px",
+												borderRadius: "50px",
 												px: 1,
 												py: 0.5,
 											}}
@@ -540,21 +547,13 @@ export default function JornadaMissas() {
 
 									{/* DIA */}
 
-									<Stack
-										alignItems="center"
-										spacing={0.5}
-									>
+									<Stack alignItems="center" spacing={0.5}>
 										<Typography
 											sx={{
-												fontSize:
-													"0.7rem",
+												fontSize: "0.7rem",
 												fontWeight: 600,
-												color:
-													selected
-														? "rgba(255,255,255,0.8)"
-														: TEXT_LIGHT,
-												textTransform:
-													"uppercase",
+												color: selected ? "rgba(255,255,255,0.8)" : TEXT_LIGHT,
+												textTransform: "uppercase",
 											}}
 										>
 											{day.shortName}
@@ -562,77 +561,49 @@ export default function JornadaMissas() {
 
 										<Typography
 											sx={{
-												fontFamily:
-													"Cinzel, serif",
+												fontFamily: "Cinzel, serif",
 												fontSize: {
 													xs: "2rem",
 													md: "2.5rem",
 												},
 												fontWeight: 600,
 												lineHeight: 1,
-												color:
-													selected
-														? "#fff"
-														: TEXT,
+												color: selected ? "#fff" : TEXT,
 											}}
 										>
-											{
-												day.dayNumber
-											}
+											{day.dayNumber}
 										</Typography>
 
 										<Typography
 											sx={{
-												fontSize:
-													"0.7rem",
-												color:
-													selected
-														? "rgba(255,255,255,0.75)"
-														: TEXT_LIGHT,
-												textTransform:
-													"capitalize",
+												fontSize: "0.7rem",
+												color: selected ? "rgba(255,255,255,0.75)" : TEXT_LIGHT,
+												textTransform: "capitalize",
 											}}
 										>
-											{
-												day.month
-											}
+											{day.month}
 										</Typography>
 									</Stack>
 
 									{/* COMPROMISSOS */}
 
-									<Stack
-										alignItems="center"
-										spacing={0.5}
-									>
+									<Stack alignItems="center" spacing={0.5}>
 										<GroupsIcon
 											sx={{
 												fontSize: 18,
-												color:
-													selected
-														? "#fff"
-														: ORANGE,
+												color: selected ? "#fff" : ORANGE,
 											}}
 										/>
 
 										<Typography
 											sx={{
-												fontSize:
-													"0.7rem",
+												fontSize: "0.7rem",
 												fontWeight: 500,
-												color:
-													selected
-														? "#fff"
-														: TEXT_LIGHT,
-												textAlign:
-													"center",
+												color: selected ? "#fff" : TEXT_LIGHT,
+												textAlign: "center",
 											}}
 										>
-											{people}{" "}
-											{people ===
-											1
-												? "pessoa"
-												: "pessoas"}
+											{people} {people === 1 ? "pessoa" : "pessoas"}
 										</Typography>
 									</Stack>
 
@@ -641,16 +612,14 @@ export default function JornadaMissas() {
 									{selected && (
 										<Box
 											sx={{
-												position:
-													"absolute",
+												position: "absolute",
 												top: 10,
 												left: 10,
 											}}
 										>
 											<CheckCircleIcon
 												sx={{
-													color:
-														"#fff",
+													color: "#fff",
 													fontSize: 22,
 												}}
 											/>
@@ -673,10 +642,8 @@ export default function JornadaMissas() {
 						},
 						borderRadius: "24px",
 						backgroundColor: "#fff",
-						border:
-							"1px solid rgba(255,102,0,0.15)",
-						boxShadow:
-							"0 15px 50px rgba(0,0,0,0.06)",
+						border: "1px solid rgba(255,102,0,0.15)",
+						boxShadow: "0 15px 50px rgba(0,0,0,0.06)",
 					}}
 				>
 					<Stack
@@ -685,18 +652,13 @@ export default function JornadaMissas() {
 							md: "row",
 						}}
 						sx={{
-                            justifyContent: 'center'
-                        }}
+							justifyContent: "center",
+						}}
 						gap={4}
 					>
-						
-
 						<Button
 							variant="contained"
-							disabled={selectedCount === 0}
-							endIcon={
-								<ArrowForwardIcon />
-							}
+							endIcon={<ArrowForwardIcon />}
 							sx={{
 								minWidth: {
 									xs: "100%",
@@ -704,43 +666,54 @@ export default function JornadaMissas() {
 								},
 								height: 52,
 								borderRadius: "50px",
-								backgroundColor:
-									ORANGE,
+								backgroundColor: ORANGE,
 								fontWeight: 600,
-								textTransform:
-									"none",
-								boxShadow:
-									"0 10px 25px rgba(255,102,0,0.25)",
+								textTransform: "none",
+								boxShadow: "0 10px 25px rgba(255,102,0,0.25)",
 
 								"&:hover": {
-									backgroundColor:
-										"#E85C00",
+									backgroundColor: "#E85C00",
 								},
 
 								"&.Mui-disabled": {
-									backgroundColor:
-										"#eee",
+									backgroundColor: "#eee",
 									color: "#aaa",
 								},
 							}}
+							disabled={loadingSave}
 							onClick={() => {
-								console.log(
-									"Enviar compromisso:",
-									selectedDays
-								);
-
-								/*
-								 * Aqui futuramente:
-								 *
-								 * POST /jornada-missas
-								 *
-								 * {
-								 *   days: selectedDays
-								 * }
-								 */
+								console.log("Enviar compromisso:", selectedDays);
+								setLoadingSave(true);
+								axios
+									.post(
+										`${import.meta.env.VITE_API_URL}/jornadaDeMissas/clear-days/${profile.email}`,
+									)
+									.then((r) => {
+										if (r.data.success) {
+											axios
+												.post(
+													`${import.meta.env.VITE_API_URL}/jornadaDeMissas/impawn`,
+													{
+														email: profile.email,
+														date: selectedDays,
+													},
+												)
+												.then((__r) => {
+													toast.success("Salvado com sucesso.");
+												})
+												.catch(() => {
+													toast.error(
+														"houve um problema ao salvar, tente novamente mais tarde.",
+													);
+												});
+										}
+									})
+									.finally(() => {
+										setLoadingSave(false);
+									});
 							}}
 						>
-							Assumir compromisso
+							Salvar
 						</Button>
 					</Stack>
 				</Box>
@@ -777,9 +750,8 @@ export default function JornadaMissas() {
 							color: TEXT_LIGHT,
 						}}
 					>
-						“Que cada Santa Missa oferecida seja
-						uma semente de graça para as almas e
-						para o crescimento das missões.”
+						“Que cada Santa Missa oferecida seja uma semente de graça para as
+						almas e para o crescimento das missões.”
 					</Typography>
 				</Stack>
 			</Container>

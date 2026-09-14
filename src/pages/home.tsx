@@ -1,5 +1,3 @@
-
-import Header from "../components/header";
 import JoinVozes from "../components/joinVozesButton";
 import LastPublications from "../components/lastPublications";
 
@@ -106,216 +104,211 @@ export default function Home() {
 					}}
 				/>
 
-				<Header />
-
 				{/* HERO CONTENT */}
 
-					<Container
-	maxWidth={false}
-	sx={{
-		flex: 1,
-		width: "100%",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		px: 2,
-		py: {
-			xs: 10,
-			md: 6,
-		},
-	}}
->
-	<Box
-		sx={{
-			width: "100%",
-			maxWidth: "1100px",
-			display: "flex",
-			flexDirection: "column",
-			alignItems: "center",
-			justifyContent: "center",
-			textAlign: "center",
-		}}
-	>
-		{/* LINHA SUPERIOR */}
+				<Container
+					maxWidth={false}
+					sx={{
+						flex: 1,
+						width: "100%",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						px: 2,
+						py: {
+							xs: 10,
+							md: 6,
+						},
+					}}
+				>
+					<Box
+						sx={{
+							width: "100%",
+							maxWidth: "1100px",
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+							justifyContent: "center",
+							textAlign: "center",
+						}}
+					>
+						{/* LINHA SUPERIOR */}
 
-		<Box
-			sx={{
-				width: "100%",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				gap: {
-					xs: 1.5,
-					md: 2,
-				},
-				mb: {
-					xs: 1,
-					md: 2,
-				},
-			}}
-		>
-			<Box
-				sx={{
-					width: {
-						xs: 25,
-						sm: 40,
-						md: 60,
-					},
-					height: "1px",
-					backgroundColor: "#FF6600",
-					flexShrink: 0,
-				}}
-			/>
+						<Box
+							sx={{
+								width: "100%",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								gap: {
+									xs: 1.5,
+									md: 2,
+								},
+								mb: {
+									xs: 1,
+									md: 2,
+								},
+							}}
+						>
+							<Box
+								sx={{
+									width: {
+										xs: 25,
+										sm: 40,
+										md: 60,
+									},
+									height: "1px",
+									backgroundColor: "#FF6600",
+									flexShrink: 0,
+								}}
+							/>
 
-			<Typography
-				sx={{
-					color: "#FFB07A",
-					fontFamily: "Cinzel, serif",
-					fontSize: {
-						xs: "0.6rem",
-						sm: "0.7rem",
-						md: "0.85rem",
-					},
-					letterSpacing: {
-						xs: "1.5px",
-						sm: "2px",
-						md: "4px",
-					},
-					textTransform: "uppercase",
-					textAlign: "center",
-					lineHeight: 1.4,
-				}}
-			>
-				Instituto do Verbo Encarnado
-			</Typography>
+							<Typography
+								sx={{
+									color: "#FFB07A",
+									fontFamily: "Cinzel, serif",
+									fontSize: {
+										xs: "0.6rem",
+										sm: "0.7rem",
+										md: "0.85rem",
+									},
+									letterSpacing: {
+										xs: "1.5px",
+										sm: "2px",
+										md: "4px",
+									},
+									textTransform: "uppercase",
+									textAlign: "center",
+									lineHeight: 1.4,
+								}}
+							>
+								Instituto do Verbo Encarnado
+							</Typography>
 
-			<Box
-				sx={{
-					width: {
-						xs: 25,
-						sm: 40,
-						md: 60,
-					},
-					height: "1px",
-					backgroundColor: "#FF6600",
-					flexShrink: 0,
-				}}
-			/>
-		</Box>
+							<Box
+								sx={{
+									width: {
+										xs: 25,
+										sm: 40,
+										md: 60,
+									},
+									height: "1px",
+									backgroundColor: "#FF6600",
+									flexShrink: 0,
+								}}
+							/>
+						</Box>
 
-		{/* LOGO */}
+						{/* LOGO */}
 
-		<Box
-			sx={{
-				width: "100%",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				mb: {
-					xs: 1,
-					md: 2,
-				},
-			}}
-		>
-			<Box
-				component="img"
-				src={vozesLogo}
-				alt="Vozes do Verbo"
-				sx={{
-					display: "block",
-					width: {
-						xs: 100,
-						sm: 130,
-						md: 160,
-					},
-					height: "auto",
-					margin: 0,
-					filter:
-						"drop-shadow(0px 10px 20px rgba(0,0,0,0.35))",
-				}}
-			/>
-		</Box>
+						<Box
+							sx={{
+								width: "100%",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								mb: {
+									xs: 1,
+									md: 2,
+								},
+							}}
+						>
+							<Box
+								component="img"
+								src={vozesLogo}
+								alt="Vozes do Verbo"
+								sx={{
+									display: "block",
+									width: {
+										xs: 100,
+										sm: 130,
+										md: 160,
+									},
+									height: "auto",
+									margin: 0,
+									filter: "drop-shadow(0px 10px 20px rgba(0,0,0,0.35))",
+								}}
+							/>
+						</Box>
 
-		{/* TÍTULO */}
+						{/* TÍTULO */}
 
-		<Box
-			sx={{
-				width: "100%",
-				display: "flex",
-				justifyContent: "center",
-			}}
-		>
-			<Typography
-				component="h1"
-				sx={{
-					color: "#fff",
-					fontFamily: "Cinzel, serif",
-					fontWeight: 600,
-					fontSize: {
-						xs: "3rem",
-						sm: "4.5rem",
-						md: "6.5rem",
-						lg: "6.5rem",
-					},
-					lineHeight: 0.95,
-					letterSpacing: {
-						xs: "-1px",
-						md: "-3px",
-					},
-					textAlign: "center",
-					textShadow: "0 10px 30px rgba(0,0,0,0.4)",
-					margin: 0,
-				}}
-			>
-				Vozes do Verbo
-			</Typography>
-		</Box>
+						<Box
+							sx={{
+								width: "100%",
+								display: "flex",
+								justifyContent: "center",
+							}}
+						>
+							<Typography
+								component="h1"
+								sx={{
+									color: "#fff",
+									fontFamily: "Cinzel, serif",
+									fontWeight: 600,
+									fontSize: {
+										xs: "3rem",
+										sm: "4.5rem",
+										md: "6.5rem",
+										lg: "6.5rem",
+									},
+									lineHeight: 0.95,
+									letterSpacing: {
+										xs: "-1px",
+										md: "-3px",
+									},
+									textAlign: "center",
+									textShadow: "0 10px 30px rgba(0,0,0,0.4)",
+									margin: 0,
+								}}
+							>
+								Vozes do Verbo
+							</Typography>
+						</Box>
 
-		{/* DESCRIÇÃO */}
+						{/* DESCRIÇÃO */}
 
-		<Box
-			sx={{
-				width: "100%",
-				display: "flex",
-				justifyContent: "center",
-			}}
-		>
-			<Typography
-				sx={{
-					color: "rgba(255,255,255,0.88)",
-					fontSize: {
-						xs: "1rem",
-						md: "1.2rem",
-					},
-					lineHeight: 1.8,
-					maxWidth: "650px",
-					fontWeight: 300,
-					textAlign: "center",
-					px: 2,
-					margin: 0,
-				}}
-			>
-				Uma voz que nasce da fé, encontra a verdade e
-				se faz presente no mundo.
-			</Typography>
-		</Box>
+						<Box
+							sx={{
+								width: "100%",
+								display: "flex",
+								justifyContent: "center",
+							}}
+						>
+							<Typography
+								sx={{
+									color: "rgba(255,255,255,0.88)",
+									fontSize: {
+										xs: "1rem",
+										md: "1.2rem",
+									},
+									lineHeight: 1.8,
+									maxWidth: "650px",
+									fontWeight: 300,
+									textAlign: "center",
+									px: 2,
+									margin: 0,
+								}}
+							>
+								Uma voz que nasce da fé, encontra a verdade e se faz presente no
+								mundo.
+							</Typography>
+						</Box>
 
-		{/* DIVISOR */}
+						{/* DIVISOR */}
 
-		<Box
-			sx={{
-				width: "70px",
-				height: "2px",
-				backgroundColor: "#FF6600",
-				my: 2,
-			}}
-		/>
+						<Box
+							sx={{
+								width: "70px",
+								height: "2px",
+								backgroundColor: "#FF6600",
+								my: 2,
+							}}
+						/>
 
-		{/* BOTÃO */}
-
-	
-	</Box>
-</Container>
+						{/* BOTÃO */}
+					</Box>
+				</Container>
 
 				{/* SCROLL BUTTON */}
 
@@ -323,7 +316,7 @@ export default function Home() {
 					onClick={scrollToContent}
 					sx={{
 						position: "absolute",
-						
+
 						bottom: {
 							xs: 25,
 							md: 35,
@@ -416,8 +409,7 @@ export default function Home() {
 										md: "60px",
 									},
 									display: "block",
-									boxShadow:
-										"0px 25px 70px rgba(40,25,10,0.18)",
+									boxShadow: "0px 25px 70px rgba(40,25,10,0.18)",
 								}}
 							/>
 
@@ -558,9 +550,8 @@ export default function Home() {
 									lineHeight: 1.9,
 								}}
 							>
-								O Vozes do Verbo nasceu em 2014, na Itália,
-								com o desejo de aprofundar, viver e defender
-								a fé católica.
+								O Vozes do Verbo nasceu em 2014, na Itália, com o desejo de
+								aprofundar, viver e defender a fé católica.
 							</Typography>
 
 							<Typography
@@ -573,9 +564,9 @@ export default function Home() {
 									lineHeight: 1.9,
 								}}
 							>
-								Hoje, nossa missão alcança diferentes culturas
-								e realidades, levando a verdade do Evangelho
-								aos mais diversos círculos da sociedade.
+								Hoje, nossa missão alcança diferentes culturas e realidades,
+								levando a verdade do Evangelho aos mais diversos círculos da
+								sociedade.
 							</Typography>
 
 							<Typography
@@ -588,9 +579,8 @@ export default function Home() {
 									lineHeight: 1.9,
 								}}
 							>
-								No Brasil, iniciamos nossa caminhada no dia
-								15 de novembro de 2019, sob a tutela da família
-								religiosa do Verbo Encarnado.
+								No Brasil, iniciamos nossa caminhada no dia 15 de novembro de
+								2019, sob a tutela da família religiosa do Verbo Encarnado.
 							</Typography>
 
 							<Box sx={{ pt: 2 }}>
@@ -707,16 +697,13 @@ export default function Home() {
 									py: 4,
 									border: "1px solid #fff",
 									borderRadius: "25px",
-									backgroundColor:
-										"rgba(255,255,255,0.03)",
+									backgroundColor: "rgba(255,255,255,0.03)",
 									transition: "0.3s",
 
 									"&:hover": {
 										transform: "translateY(-8px)",
-										backgroundColor:
-											"rgba(255,255,255,0.07)",
-										borderColor:
-											"#fff",
+										backgroundColor: "rgba(255,255,255,0.07)",
+										borderColor: "#fff",
 									},
 								}}
 							>
@@ -840,9 +827,9 @@ export default function Home() {
 									lineHeight: 1.9,
 								}}
 							>
-								O Vozes do Verbo está presente em diversos
-								países do mundo, levando a fé e a missão do
-								Verbo a diferentes culturas e realidades.
+								O Vozes do Verbo está presente em diversos países do mundo,
+								levando a fé e a missão do Verbo a diferentes culturas e
+								realidades.
 							</Typography>
 
 							<Typography
@@ -855,9 +842,8 @@ export default function Home() {
 									lineHeight: 1.9,
 								}}
 							>
-								No Brasil, nossa presença se estende por
-								diversos estados, onde buscamos anunciar,
-								formar e testemunhar a fé católica.
+								No Brasil, nossa presença se estende por diversos estados, onde
+								buscamos anunciar, formar e testemunhar a fé católica.
 							</Typography>
 
 							{/* ESTADOS */}
@@ -871,8 +857,7 @@ export default function Home() {
 									},
 									borderRadius: "20px",
 									backgroundColor: "#fff",
-									boxShadow:
-										"0px 15px 40px rgba(40,25,10,0.08)",
+									boxShadow: "0px 15px 40px rgba(40,25,10,0.08)",
 									borderLeft: "4px solid rgb(255, 90, 0)",
 								}}
 							>
@@ -897,8 +882,8 @@ export default function Home() {
 										lineHeight: 1.8,
 									}}
 								>
-									Amazonas · Mato Grosso · Pará · São Paulo
-									· Bahia · Espírito Santo · Ceará
+									Amazonas · Mato Grosso · Pará · São Paulo · Bahia · Espírito
+									Santo · Ceará
 								</Typography>
 							</Box>
 						</Stack>
@@ -937,8 +922,7 @@ export default function Home() {
 										xs: "25px",
 										md: "50px",
 									},
-									boxShadow:
-										"0px 25px 70px rgba(40,25,10,0.12)",
+									boxShadow: "0px 25px 70px rgba(40,25,10,0.12)",
 								}}
 							/>
 						</Box>
@@ -981,8 +965,7 @@ export default function Home() {
 							background:
 								"linear-gradient(135deg, rgb(180, 102, 60) 0%, rgb(224, 82, 6) 100%)",
 							color: "#fff",
-							boxShadow:
-								"0px 30px 80px rgba(35,20,10,0.2)",
+							boxShadow: "0px 30px 80px rgba(35,20,10,0.2)",
 						}}
 					>
 						{/* EFEITO */}
@@ -1041,9 +1024,8 @@ export default function Home() {
 									lineHeight: 1.8,
 								}}
 							>
-								Junte-se a nós nessa missão de levar a
-								verdade, a fé e a esperança aos diferentes
-								círculos da sociedade.
+								Junte-se a nós nessa missão de levar a verdade, a fé e a
+								esperança aos diferentes círculos da sociedade.
 							</Typography>
 
 							<Box sx={{ pt: 2 }}>
@@ -1113,4 +1095,3 @@ export default function Home() {
 		</Box>
 	);
 }
-

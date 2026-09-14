@@ -7,7 +7,7 @@ export default function JoinVozes() {
 				p: 0,
 				minWidth: "280px",
 				height: "65px",
-				width: '400px',
+				width: "400px",
 				borderRadius: "50px",
 				overflow: "hidden",
 

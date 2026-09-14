@@ -14,7 +14,33 @@ import MenuItem from "@mui/material/MenuItem";
 
 import { Instagram, WhatsApp } from "@mui/icons-material";
 
-const pages = ["Home", "Jornada de Missas", "Publicações", "Agenda", "Sobre nós", "Galeria"];
+const pages = [
+	{
+		label: "Home",
+		path: "/",
+	},
+	{
+		label: "Jornada de Missas",
+		path: "/jornadaDeMissas",
+	},
+	{
+		label: "Publicações",
+		path: "/publicacoes",
+	},
+	{
+		label: "Agenda",
+		path: "/agenda",
+	},
+	{
+		label: "Sobre nós",
+		path: "/sobre",
+	},
+	{
+		label: "Galeria",
+		path: "/galeria",
+	},
+];
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -98,8 +124,18 @@ function Header() {
 							sx={{ display: { xs: "block", md: "none" } }}
 						>
 							{pages.map((page) => (
-								<MenuItem key={page} onClick={handleCloseNavMenu}>
-									<Typography sx={{ textAlign: "center", color: 'rgb(255, 102, 0)' }}>{page}</Typography>
+								<MenuItem
+									key={page.path}
+									onClick={() => {
+										handleCloseNavMenu();
+										window.location.href = page.path;
+									}}
+								>
+									<Typography
+										sx={{ textAlign: "center", color: "rgb(255, 102, 0)" }}
+									>
+										{page.label}
+									</Typography>
 								</MenuItem>
 							))}
 						</Menu>
@@ -126,11 +162,14 @@ function Header() {
 					<Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 						{pages.map((page) => (
 							<Button
-								key={page}
-								onClick={handleCloseNavMenu}
+								key={page.path}
+								onClick={() => {
+									handleCloseNavMenu();
+									window.location.href = page.path;
+								}}
 								sx={{ my: 2, color: "rgb(255, 102, 0)", display: "block" }}
 							>
-								{page}
+								{page.label}
 							</Button>
 						))}
 					</Box>
@@ -144,7 +183,7 @@ function Header() {
 							</IconButton>
 						</div>
 						<Menu
-							sx={{ mt: "45px" , color: 'rgb(255, 102, 0)'}}
+							sx={{ mt: "45px", color: "rgb(255, 102, 0)" }}
 							id="menu-appbar"
 							anchorEl={anchorElUser}
 							anchorOrigin={{
@@ -161,7 +200,9 @@ function Header() {
 						>
 							{settings.map((setting) => (
 								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography sx={{ textAlign: "center" , color: 'rgb(255, 102, 0)'}}>
+									<Typography
+										sx={{ textAlign: "center", color: "rgb(255, 102, 0)" }}
+									>
 										{setting}
 									</Typography>
 								</MenuItem>
